@@ -1,0 +1,37 @@
+########################
+# Spring boot properties
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+########################
+spring:
+  profiles:
+    active: default
+  output:
+    ansi:
+      enabled: ALWAYS
+  flyway:
+    enabled: true
+    clean-on-validation-error: true
+    baseline-on-migrate: true
+    clean-disabled: false
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.CockroachDialect
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://localhost:26257/spring_boot?sslmode=disable
+#    url: jdbc:postgresql://192.168.1.99:26257/spring_boot?sslmode=disable
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 50
+#############################
+logging:
+  pattern:
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr([%logger{39}]){cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+#############################
+roach:
+  batch-size: 24
+  multi-value-inserts: true
