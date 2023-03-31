@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:cockroachdb://kai-odin-hnb.aws-eu-north-1.cockroachlabs.cloud:26257/spring_boot?sslmode=require&implicitSelectForUpdate=true&retryTransientErrors=true
+    username: guest
+    password: UqhyOq3l_M8Yn_Uq0S4VvA
+    driver-class-name: io.cockroachdb.jdbc.CockroachDriver

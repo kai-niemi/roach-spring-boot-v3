@@ -21,7 +21,8 @@
     </properties>
 
     <modules>
-        <module>batch-demo</module>
+        <module>spring-boot-batch</module>
+        <module>spring-boot-statemachine</module>
     </modules>
 
     <dependencyManagement>

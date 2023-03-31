@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:cockroachdb://localhost:26257/spring_boot?sslmode=disable&implicitSelectForUpdate=true&retryTransientErrors=true
+    username: root
+    password:
+    driver-class-name: io.cockroachdb.jdbc.CockroachDriver
