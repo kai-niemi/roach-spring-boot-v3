@@ -1,4 +1,4 @@
-package io.roach.spring.statemachine;
+package io.roach.spring.parallel;
 
 import com.zaxxer.hikari.HikariDataSource;
 import net.ttddyy.dsproxy.listener.logging.SLF4JLogLevel;
@@ -39,8 +39,10 @@ public class DataSourceConfiguration {
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
+        ds.setPoolName("parallel-demo");
+        ds.setAutoCommit(true);
         ds.addDataSourceProperty(PGProperty.REWRITE_BATCHED_INSERTS.getName(), "true");
-        ds.addDataSourceProperty(PGProperty.APPLICATION_NAME.getName(), "ssm-demo");
+        ds.addDataSourceProperty(PGProperty.APPLICATION_NAME.getName(), "parallel-demo");
         return ds;
     }
 }
