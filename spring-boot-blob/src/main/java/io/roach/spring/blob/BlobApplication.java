@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL_FORMS)
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = BlobApplication.class, enableDefaultTransactions = false)
 @EnableAspectJAutoProxy(proxyTargetClass = true)

@@ -1,24 +1,21 @@
 package io.roach.spring.blob;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.Checksum;
-
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
+
+import java.io.*;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.Checksum;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
@@ -27,8 +24,8 @@ public class DefaultAttachmentService implements AttachmentService {
     protected AttachmentRepository attachmentRepository;
 
     @Override
-    public List<Attachment> findAll() {
-        return attachmentRepository.findAll();
+    public Page<Attachment> findAll(Pageable pageable) {
+        return attachmentRepository.findAll(pageable);
     }
 
     @Override
@@ -43,8 +40,14 @@ public class DefaultAttachmentService implements AttachmentService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void deleteAttachment(Attachment att) {
-        attachmentRepository.delete(att);
+    public void deleteAttachment(Long id) {
+        attachmentRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteAllAttachments() {
+        attachmentRepository.deleteAll();
     }
 
     @Override
@@ -102,7 +105,7 @@ public class DefaultAttachmentService implements AttachmentService {
             attachment.setContent(content);
             attachment.setContentType(contentType);
             attachment.setContentLength(contentLength);
-            attachment.setChecksum(calcAttachmentChecksum(is));
+            attachment.setChecksum(0);//calcAttachmentChecksum(is));
             attachment.setName(name);
             attachment.setDescription(description);
 

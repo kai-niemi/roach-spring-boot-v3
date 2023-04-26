@@ -1,5 +1,8 @@
 package io.roach.spring.blob;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -42,7 +45,7 @@ public interface AttachmentService {
      *
      * @return list of attachments
      */
-    List<Attachment> findAll();
+    Page<Attachment> findAll(Pageable pageable);
 
     /**
      * Find an attachment by id.
@@ -64,8 +67,8 @@ public interface AttachmentService {
 
     /**
      * Makes an attachment transient, e.g deletes it.
-     *
-     * @param att the entity to delete
      */
-    void deleteAttachment(Attachment att);
+    void deleteAttachment(Long id);
+
+    void deleteAllAttachments();
 }
