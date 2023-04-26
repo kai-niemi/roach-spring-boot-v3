@@ -2,11 +2,11 @@ create table attachment
 (
     id             int          not null default unordered_unique_rowid(),
     content        bytea        null,
-    content_type   varchar(15)  not null default 'application/octet-stream',
+    content_type   varchar(128)  not null default 'application/octet-stream',
     checksum       int          not null default 0,
     created_at     timestamptz  not null default clock_timestamp(),
-    name           varchar(64)  not null,
-    description    varchar(256) null,
+    name           varchar(128)  not null,
+    description    varchar(512) null,
     content_length int          not null,
 
     primary key (id),

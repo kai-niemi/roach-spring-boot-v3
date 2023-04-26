@@ -105,9 +105,9 @@ public class DefaultAttachmentService implements AttachmentService {
             attachment.setContent(content);
             attachment.setContentType(contentType);
             attachment.setContentLength(contentLength);
-            attachment.setChecksum(0);//calcAttachmentChecksum(is));
             attachment.setName(name);
             attachment.setDescription(description);
+            attachment.setChecksum(calcAttachmentChecksum(content.getBinaryStream()));
 
             attachmentRepository.save(attachment);
 
