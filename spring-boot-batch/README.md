@@ -21,7 +21,7 @@ Key takeaways:
 ```shell
 mvn -DskipTests=false -Dtest=io.roach.spring.batch.BatchStatementTest \
   -Dspring.profiles.active=default -Droach.multi-value-inserts=true -Droach.batch-size=64 \ 
-  -Dspring.datasource.url=jdbc:postgresql://192.168.1.2:26257/spring_boot?sslmode=disable \ 
+  -Dspring.datasource.url=jdbc:postgresql://192.168.1.2:26257/spring_boot_demo?sslmode=disable \ 
   -Dspring.datasource.username=root \ 
   -Dspring.datasource.password=root \ 
   test
@@ -32,7 +32,7 @@ mvn -DskipTests=false -Dtest=io.roach.spring.batch.BatchStatementTest \
 ```shell
 mvn -DskipTests=false -Dtest=io.roach.spring.batch.BatchUpsertTest \
   -Dspring.profiles.active=default -Droach.multi-value-inserts=true -Droach.batch-size=64 \ 
-  -Dspring.datasource.url=jdbc:postgresql://192.168.1.2:26257/spring_boot?sslmode=disable \ 
+  -Dspring.datasource.url=jdbc:postgresql://192.168.1.2:26257/spring_boot_demo?sslmode=disable \ 
   -Dspring.datasource.username=root \ 
   -Dspring.datasource.password=root \ 
   test

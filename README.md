@@ -39,7 +39,7 @@ Confirm the installation by running:
 
 Create the database that will store job metadata and stats:
 
-    cockroach sql --insecure --host=localhost -e "CREATE database spring_boot"
+    cockroach sql --insecure --host=localhost -e "CREATE database spring_boot_demo"
 
 # Terms of Use
 
