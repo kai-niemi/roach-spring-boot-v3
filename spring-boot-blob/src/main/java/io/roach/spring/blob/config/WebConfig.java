@@ -70,7 +70,7 @@ public class WebConfig implements WebMvcConfigurer {
         String uri = ServletUriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("localhost")
-                .port(8080)
+                .port(8090)
                 .pathSegment("rels", "{rel}")
                 .build().toUriString();
         return new DefaultCurieProvider("blob", UriTemplate.of(uri));

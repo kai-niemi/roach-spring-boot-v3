@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -14,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -47,8 +48,8 @@ public class ProductCatalogTest extends AbstractIntegrationTest {
 
     @Test
     public void findAll() {
-        List<Attachment> attachments = attachmentService.findAll();
-        Assertions.assertTrue(attachments.size() >= 2);
+        Page<Attachment> attachments = attachmentService.findAll(Pageable.ofSize(5));
+        Assertions.assertTrue(attachments.getTotalElements() >= 2);
     }
 
     @Test

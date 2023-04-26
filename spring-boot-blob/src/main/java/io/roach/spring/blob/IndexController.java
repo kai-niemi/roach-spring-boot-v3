@@ -24,20 +24,16 @@ public class IndexController {
                 .linkTo(methodOn(AttachmentController.class)
                         .findAttachments(PageRequest.ofSize(5)))
                 .withRel("attachment")
-                .withTitle("Attachment collection resource")
-                .withName("attachment collection"));
+                .withTitle("Attachment collection resource"));
 
-        String rootUri =
-                ServletUriComponentsBuilder
-                        .fromCurrentContextPath()
-                        .buildAndExpand()
-                        .toUriString();
         index.add(Link.of(ServletUriComponentsBuilder.fromCurrentContextPath()
                         .pathSegment("browser/index.html")
-                        .fragment("theme=Cosmo&uri=" + rootUri)
+                        .fragment("theme=Cosmo&uri=" + ServletUriComponentsBuilder
+                                .fromCurrentContextPath()
+                                .buildAndExpand()
+                                .toUriString())
                         .buildAndExpand()
                         .toUriString())
-                .withName("browser")
                 .withRel("hal-explorer")
                 .withTitle("REST API browser")
                 .withType(MediaType.TEXT_HTML_VALUE)

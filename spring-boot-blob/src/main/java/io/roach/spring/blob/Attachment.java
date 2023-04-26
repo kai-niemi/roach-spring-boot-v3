@@ -1,16 +1,23 @@
 package io.roach.spring.blob;
 
-import io.roach.spring.blob.support.AbstractPersistentEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-import java.io.File;
-import java.io.InputStream;
 import java.sql.Blob;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.roach.spring.blob.support.AbstractPersistentEntity;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "attachment")
@@ -78,11 +85,6 @@ public class Attachment extends AbstractPersistentEntity<Long> {
         return id;
     }
 
-    /**
-     * Image name which usually is the filename.
-     *
-     * @return the image name
-     */
     public String getName() {
         return name;
     }

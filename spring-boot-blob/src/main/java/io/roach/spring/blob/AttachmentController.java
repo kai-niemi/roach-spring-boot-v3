@@ -24,7 +24,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RestController
 @RequestMapping("/attachment")
 public class AttachmentController {
-    static class AttachmentAssembler implements SimpleRepresentationModelAssembler<Attachment> {
+    private final SimpleRepresentationModelAssembler attachmentAssembler
+            = new SimpleRepresentationModelAssembler<Attachment>() {
         @Override
         public void addLinks(EntityModel<Attachment> resource) {
             resource.add(linkTo(methodOn(AttachmentController.class).getAttachment(resource.getContent().getId())).withSelfRel()
@@ -35,14 +36,8 @@ public class AttachmentController {
 
         @Override
         public void addLinks(CollectionModel<EntityModel<Attachment>> resources) {
-            resources
-                    .add(linkTo(methodOn(AttachmentController.class).findAttachments(PageRequest.ofSize(5))).withSelfRel()
-                            .andAffordance(afford(methodOn(AttachmentController.class).submitAttachment(null, null, null)))
-                            .andAffordance(afford(methodOn(AttachmentController.class).deleteAllAttachments())));
         }
-    }
-
-    private final AttachmentAssembler attachmentAssembler = new AttachmentAssembler();
+    };
 
     @Autowired
     private PagedResourcesAssembler<Attachment> attachmentPagedResourcesAssembler;
@@ -52,8 +47,12 @@ public class AttachmentController {
 
     @GetMapping
     public PagedModel<EntityModel<Attachment>> findAttachments(@PageableDefault(size = 5, direction = Sort.Direction.ASC) Pageable page) {
-        return attachmentPagedResourcesAssembler
+        PagedModel<EntityModel<Attachment>>  model = attachmentPagedResourcesAssembler
                 .toModel(attachmentService.findAll(page), attachmentAssembler);
+        model.add(linkTo(methodOn(AttachmentController.class).findAttachments(PageRequest.ofSize(5))).withSelfRel()
+                .andAffordance(afford(methodOn(AttachmentController.class).submitAttachment(null, null, null)))
+                .andAffordance(afford(methodOn(AttachmentController.class).deleteAllAttachments())));
+        return model;
     }
 
     @PostMapping("/form")
@@ -83,9 +82,8 @@ public class AttachmentController {
     @GetMapping("/download/{id}")
     public ResponseEntity<StreamingResponseBody> downloadAttachment(@PathVariable("id") Long id) {
         Attachment attachment = attachmentService.findById(id);
-        final StreamingResponseBody responseBody = outputStream -> {
-            attachmentService.streamAttachment(attachment, outputStream);
-        };
+        StreamingResponseBody responseBody =
+                outputStream -> attachmentService.streamAttachment(attachment, outputStream);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, attachment.getContentType())
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline")

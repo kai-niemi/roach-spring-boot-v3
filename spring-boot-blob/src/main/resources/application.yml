@@ -19,6 +19,10 @@ spring:
     locale: en_US
   mvc:
     throw-exception-if-no-handler-found: true
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
 
   datasource:
     url: jdbc:postgresql://localhost:26257/spring_boot_demo?sslmode=disable
