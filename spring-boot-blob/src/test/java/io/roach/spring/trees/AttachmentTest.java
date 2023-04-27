@@ -1,45 +1,36 @@
 package io.roach.spring.trees;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
+import io.roach.spring.blob.Attachment;
+import io.roach.spring.blob.AttachmentService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.annotation.Commit;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.ResourceUtils;
 
-import io.roach.spring.blob.Attachment;
-import io.roach.spring.blob.AttachmentService;
+import java.io.*;
 
 @Disabled
-public class ProductCatalogTest extends AbstractIntegrationTest {
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
+@ActiveProfiles({"verbose", "dev"})
+public class AttachmentTest extends AbstractIntegrationTest {
     @Autowired
     private AttachmentService attachmentService;
 
     @Test
     @Order(1)
-    @Transactional
-    @Commit
     public void clearTestData() {
+        attachmentService.deleteAllAttachments();
     }
 
     @Test
     @Order(2)
     public void setupTestData() throws FileNotFoundException {
         File f = ResourceUtils.getFile("classpath:test.jpg");
+        Assertions.assertTrue(f.exists());
         attachmentService.createAttachment("a.jpg", "image",
                 new FileInputStream(f), (int) f.length(), "JPG");
         attachmentService.createAttachment("b.jpg", "image",
