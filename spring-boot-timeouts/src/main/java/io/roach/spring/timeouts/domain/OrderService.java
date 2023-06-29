@@ -1,5 +1,7 @@
 package io.roach.spring.timeouts.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class OrderService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -26,6 +30,15 @@ public class OrderService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, timeout = 5)
     public void placeOrderWithTimeout(Order order) {
         placeOrderAndUpdateInventory(order);
+
+        try {
+            logger.info("Entering fake sleep for 10s");
+            Thread.sleep(10_000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            logger.info("Exiting fake sleep for 10s");
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
