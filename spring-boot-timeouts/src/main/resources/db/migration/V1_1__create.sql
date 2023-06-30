@@ -5,6 +5,7 @@ create table order_items
     quantity   int            not null,
     unit_price numeric(19, 2) not null,
     item_pos   int            not null,
+
     primary key (order_id, item_pos)
 );
 
@@ -29,6 +30,7 @@ create table products
     name      varchar(128)   not null,
     price     numeric(19, 2) not null,
     sku       varchar(128)   not null unique,
+
     primary key (id)
 );
 

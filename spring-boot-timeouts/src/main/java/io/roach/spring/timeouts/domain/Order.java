@@ -1,5 +1,8 @@
 package io.roach.spring.timeouts.domain;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,13 +10,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import jakarta.persistence.*;
-
 @Entity
 @Table(name = "orders")
-//@TypeDef(name = "custom_enum", typeClass = ShipmentStatusEnumType.class)
 public class Order extends AbstractEntity<UUID> {
     public static Builder builder() {
         return new Builder();
@@ -43,7 +41,8 @@ public class Order extends AbstractEntity<UUID> {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID",
+            type = org.hibernate.id.UUIDGenerator.class)
     private UUID id;
 
     @Column(name = "total_price", nullable = false, updatable = false)
@@ -86,27 +85,6 @@ public class Order extends AbstractEntity<UUID> {
         this.status = status;
         this.dateUpdated = LocalDateTime.now();
         return this;
-    }
-
-    public ShipmentStatus getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getDatePlaced() {
-        return datePlaced;
-    }
-
-    public LocalDateTime getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public Order setId(UUID id) {
-        this.id = id;
-        return this;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
     }
 
     public List<OrderItem> getOrderItems() {

@@ -3,13 +3,12 @@ package io.roach.spring.timeouts.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class OrderService {
@@ -24,20 +23,20 @@ public class OrderService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public Product findProduct(String sku) {
         return productRepository.findBySku(sku)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new ObjectRetrievalFailureException(Product.class, sku));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, timeout = 5)
-    public void placeOrderWithTimeout(Order order) {
+    public void placeOrderWithTimeout(Order order, long delayMillis) {
         placeOrderAndUpdateInventory(order);
 
         try {
-            logger.info("Entering fake sleep for 10s");
-            Thread.sleep(10_000);
+            logger.info("Entering sleep for " + delayMillis);
+            Thread.sleep(delayMillis);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
-            logger.info("Exiting fake sleep for 10s");
+            logger.info("Exited sleep for " + delayMillis);
         }
     }
 

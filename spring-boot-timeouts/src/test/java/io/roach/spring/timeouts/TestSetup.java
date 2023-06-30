@@ -26,6 +26,7 @@ public class TestSetup {
 
         orderRepository.deleteAllOrderItems();
         orderRepository.deleteAll();
+        orderRepository.flush();
 
         productRepository.deleteAll();
         productRepository.flush();

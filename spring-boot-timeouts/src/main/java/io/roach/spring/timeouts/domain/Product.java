@@ -1,16 +1,11 @@
 package io.roach.spring.timeouts.domain;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "products")
@@ -66,7 +61,7 @@ public class Product extends AbstractEntity<UUID> {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
+            type = org.hibernate.id.UUIDGenerator.class
     )
     private UUID id;
 
@@ -88,29 +83,12 @@ public class Product extends AbstractEntity<UUID> {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal addPrice(BigDecimal price) {
-        this.price = price.add(price);
-        return this.price;
     }
 
     public int addInventoryQuantity(int qty) {
@@ -120,10 +98,6 @@ public class Product extends AbstractEntity<UUID> {
 
     public int getInventory() {
         return inventory;
-    }
-
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
     }
 
     @Override
