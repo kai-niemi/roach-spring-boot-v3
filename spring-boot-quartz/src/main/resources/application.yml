@@ -1,0 +1,70 @@
+########################
+# Spring boot properties
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+########################
+spring:
+  profiles:
+    active: default
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      # Use flyway instead
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          jobStore:
+            useProperties: true
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+  output:
+    ansi:
+      enabled: ALWAYS
+  flyway:
+    enabled: true
+    clean-on-validation-error: true
+    baseline-on-migrate: true
+    clean-disabled: false
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.CockroachDialect
+        connection:
+          provider_disables_autocommit: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          batch_size: 128
+          fetch_size: 128
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        hql:
+          bulk_id_strategy: org.hibernate.hql.spi.id.inline.CteValuesListBulkIdStrategy
+        cache:
+          use_minimal_puts: true
+          use_second_level_cache: false
+  datasource:
+    url: jdbc:postgresql://localhost:26257/spring_boot_demo?sslmode=disable
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password:
+    primary:
+      auto-commit: false
+      maximum-pool-size: 16
+      minimum-idle: 0
+      initialization-fail-timeout: -1
+      connection-timeout: 5000
+      pool-name: quartz-demo
+    quartz:
+      auto-commit: true
+      maximum-pool-size: 4
+      minimum-idle: 0
+      initialization-fail-timeout: -1
+      connection-timeout: 5000
+      pool-name: quartz-ds
+
+#############################
+logging:
+  pattern:
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr([%15t]){faint} %clr([%logger{39}]){cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"

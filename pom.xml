@@ -26,6 +26,7 @@
         <module>spring-boot-parallel</module>
         <module>spring-boot-blob</module>
         <module>spring-boot-timeouts</module>
+        <module>spring-boot-quartz</module>
     </modules>
 
     <dependencyManagement>
@@ -45,7 +46,7 @@
             <dependency>
                 <groupId>net.ttddyy</groupId>
                 <artifactId>datasource-proxy</artifactId>
-                <version>1.8.1</version>
+                <version>1.10</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -80,7 +81,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.2</version>
                 <configuration>
                     <failOnError>false</failOnError>
                     <filesets>
