@@ -5,7 +5,7 @@
 
     <logger name="org.springframework" level="INFO"/>
 
-    <logger name="io.roach.SQL_QUARTZ" level="TRACE"/>
+    <logger name="io.roach.SQL_QUARTZ" level="DEBUG"/>
 
     <springProfile name="verbose">
         <logger name="org.springframework.transaction.interceptor" level="TRACE"/>

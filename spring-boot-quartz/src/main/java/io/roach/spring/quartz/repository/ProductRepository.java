@@ -11,6 +11,9 @@ import io.roach.spring.quartz.domain.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
+    @Query(value = "select id from product order by random() limit 1", nativeQuery = true)
+    Optional<UUID> findRandomId();
+
     @Query
     Optional<Product> findBySku(String sku);
 }

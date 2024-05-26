@@ -1,8 +1,8 @@
 package io.roach.spring.quartz.service;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
@@ -17,9 +17,8 @@ import io.roach.spring.quartz.domain.Customer;
 import io.roach.spring.quartz.domain.Product;
 import io.roach.spring.quartz.domain.PurchaseOrder;
 
-@DisallowConcurrentExecution // cluster singleton based on job keys, thus redundant for unique keys
 @Component
-public class OrderCreationJob implements Job {
+public class OrderJob implements Job {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -32,16 +31,16 @@ public class OrderCreationJob implements Job {
     public void execute(JobExecutionContext context) {
         Assert.isTrue(!TransactionSynchronizationManager.isActualTransactionActive(), "Expected no tx");
 
-        JobKey key = context.getJobDetail().getKey();
         String customerId = (String) context.getJobDetail().getJobDataMap().get("customerId");
         String productSku = context.getJobDetail().getJobDataMap().getString("productSku");
         int quantity = Integer.parseInt(context.getJobDetail().getJobDataMap().getString("quantity"));
+        int thinkTime = Integer.parseInt(context.getJobDetail().getJobDataMap().getString("thinkTime"));
 
         Customer customer = customerService.findCustomerById(UUID.fromString(customerId));
         Product product = orderService.findProductBySku(productSku);
 
-        logger.info("[%s] Place purchase order for customer: %s: product: %s quantity: %d"
-                .formatted(key, customerId, productSku, quantity));
+        logger.info("Place purchase order for customer: %s: product: %s quantity: %d"
+                .formatted(customerId, productSku, quantity));
 
         // Transaction boundary with retries
         orderService.placeOrder(PurchaseOrder.builder()
@@ -52,5 +51,11 @@ public class OrderCreationJob implements Job {
                 .withQuantity(quantity)
                 .then()
                 .build());
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(thinkTime);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -42,6 +43,8 @@ public class TransactionConfiguration {
     @QuartzTransactionManager
     public PlatformTransactionManager quartzTransactionManager(@Autowired
                                                                @QuartzDataSource DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        transactionManager.setRollbackOnCommitFailure(false);
+        return transactionManager;
     }
 }

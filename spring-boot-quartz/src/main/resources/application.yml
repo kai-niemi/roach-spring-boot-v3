@@ -14,8 +14,31 @@ spring:
       org:
         quartz:
           jobStore:
+            isClustered: true
             useProperties: true
             driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            txIsolationLevelReadCommitted: true
+            dontSetNonManagedTXConnectionAutoCommitFalse: false
+          threadPool:
+            threadNamePrefix: quartz-worker
+            threadCount: 32
+          scheduler:
+            misfirePolicy: doNothing
+    auto-startup: false
+  shell:
+    command:
+      stacktrace:
+        enabled: true
+      version:
+        enabled: true
+    script:
+      enabled: true
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+    history:
+      name: .tmp/quartz.history
   output:
     ansi:
       enabled: ALWAYS
@@ -51,14 +74,14 @@ spring:
     password:
     primary:
       auto-commit: false
-      maximum-pool-size: 16
+      maximum-pool-size: 32
       minimum-idle: 0
       initialization-fail-timeout: -1
       connection-timeout: 5000
       pool-name: quartz-demo
     quartz:
       auto-commit: true
-      maximum-pool-size: 4
+      maximum-pool-size: 32
       minimum-idle: 0
       initialization-fail-timeout: -1
       connection-timeout: 5000

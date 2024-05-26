@@ -18,4 +18,16 @@ public class SchedulingConfiguration implements SchedulingConfigurer {
 
         taskRegistrar.setTaskScheduler(threadPoolTaskScheduler);
     }
+
+//    @Bean
+//    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory, PlatformTransactionManager transactionManager)
+//            throws IOException {
+//        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+//        factory.setJobFactory(jobFactory);
+//        factory.setDataSource(dataSource);
+//        factory.setTransactionManager(transactionManager);
+//        factory.setQuartzProperties(quartzProperties());
+//        factory.setGlobalJobListeners(jobsListenerService);
+//        return factory;
+//    }
 }
