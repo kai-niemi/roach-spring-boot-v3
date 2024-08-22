@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -27,6 +27,7 @@
         <module>spring-boot-blob</module>
         <module>spring-boot-timeouts</module>
         <module>spring-boot-quartz</module>
+        <module>spring-boot-sandbox</module>
     </modules>
 
     <dependencyManagement>
@@ -34,7 +35,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>3.2.5</version>
+                <version>3.3.2</version>
                 <exclusions>
                     <!-- Exclude the Tomcat dependency -->
                     <exclusion>
@@ -81,7 +82,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
                 <configuration>
                     <failOnError>false</failOnError>
                     <filesets>
@@ -104,7 +105,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.2</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
