@@ -1,0 +1,4 @@
+Sandbox Testing
+${AnsiColor.BRIGHT_CYAN}${application.title}${application.formatted-version} powered by Spring Boot${spring-boot.formatted-version}
+${AnsiColor.BRIGHT_CYAN}Active profiles: ${AnsiColor.CYAN}${spring.profiles.active}
+${AnsiColor.BRIGHT_CYAN}   Database URL: ${AnsiColor.CYAN}${spring.datasource.url}${AnsiColor.DEFAULT}
