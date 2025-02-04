@@ -1,7 +1,7 @@
 #!/bin/bash
 
 basedir=.
-jarfile=${basedir}/target/oom.jar
+jarfile=${basedir}/target/sandbox.jar
 
 if [ ! -f "$jarfile" ]; then
     ./mvnw clean install

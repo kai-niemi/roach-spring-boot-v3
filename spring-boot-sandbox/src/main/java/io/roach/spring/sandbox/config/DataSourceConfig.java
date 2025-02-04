@@ -1,4 +1,4 @@
-package io.roach.spring.sandbox;
+package io.roach.spring.sandbox.config;
 
 import javax.sql.DataSource;
 
@@ -30,13 +30,18 @@ public class DataSourceConfig {
         creator.setMultiline(true);
 
         SLF4JQueryLoggingListener listener = new SLF4JQueryLoggingListener();
+        listener.setQueryLogEntryCreator(creator);
         listener.setLogger(sqlTraceLogger);
         listener.setLogLevel(SLF4JLogLevel.TRACE);
-        listener.setQueryLogEntryCreator(creator);
+        listener.setWriteConnectionId(true);
+        listener.setWriteIsolation(true);
+        listener.setWriteDataSourceName(true);
 
         return sqlTraceLogger.isTraceEnabled()
                 ? ProxyDataSourceBuilder
                 .create(ds)
+                .retrieveIsolation()
+//                .traceMethods()
                 .asJson()
                 .listener(listener)
                 .multiline()
@@ -56,10 +61,8 @@ public class DataSourceConfig {
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
-
         ds.addDataSourceProperty("reWriteBatchedInserts", "true");
-        ds.addDataSourceProperty("application_name", "OOM");
-
+        ds.addDataSourceProperty("ApplicationName", "Sandbox");
         return ds;
     }
 }

@@ -8,11 +8,39 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  shell:
+    command:
+      script:
+        enabled: false
+    interactive:
+      enabled: true
+    script:
+      enabled: false
+    version:
+      enabled: false
   flyway:
     enabled: true
     clean-on-validation-error: true
     baseline-on-migrate: true
     clean-disabled: false
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.CockroachDialect
+        connection:
+          provider_disables_autocommit: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          batch_size: 128
+          fetch_size: 128
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        cache:
+          use_minimal_puts: true
+          use_second_level_cache: false
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:26257/test?sslmode=disable
@@ -21,10 +49,9 @@ spring:
     hikari:
       connection-timeout: 15000
       validation-timeout: 5000
-      register-mbeans: false
       initialization-fail-timeout: -1
-      maximum-pool-size: 128
-      minimum-idle: 8
+      maximum-pool-size: 64
+      minimum-idle: 1
       auto-commit: true
 logging:
   pattern:
